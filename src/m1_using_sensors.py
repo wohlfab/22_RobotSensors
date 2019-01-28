@@ -28,10 +28,10 @@ def main():
     #run_test_beep_and_tone()
     #run_test_go_straight_for_seconds()
     #run_test_go_straight_for_inches_using_time()
-    run_test_go_straight_for_inches_using_sensor()
+    #run_test_go_straight_for_inches_using_sensor()
     # run_test_raise_arm()
     # run_test_lower_arm()
-    # run_test_go_straight_until_black()
+    run_test_go_straight_until_black()
     # run_test_go_forward_until_distance_is_less_than()
     # run_test_tones_until_touch_sensor_is_pressed()
 
@@ -287,7 +287,10 @@ def run_test_go_straight_until_black():
     # -------------------------------------------------------------------------
     # TODO: 13. Implement this test method, then implement the method it tests.
     # -------------------------------------------------------------------------
-
+    drive = DriveSystem()
+    b = Beeper()
+    b.beep()
+    drive.go_straight_until_black(50)
 
 def run_test_go_forward_until_distance_is_less_than():
     """ Tests the   go_forward_until_distance_is_less_than   method of DriveSystem. """
@@ -383,7 +386,12 @@ class DriveSystem(object):
         Goes straight at the given speed until the robot is over
         a black surface, as measured by the color sensor.
         """
-        pass
+        self.go(speed, speed)
+        while True:
+            color = ColorSensor(3)
+            if color.get_reflected_light_intensity() <= 10:
+                break
+        self.stop()
 
     def go_forward_until_distance_is_less_than(self, inches, speed):
         """
